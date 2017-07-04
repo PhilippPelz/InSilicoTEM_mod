@@ -1,0 +1,159 @@
+;
+;	File '1RYP.top' was generated
+;	By user: philipp (1000)
+;	On host: philipp-desktop
+;	At date: Thu Sep 22 18:27:22 2016
+
+;
+;	This is a standalone topology file
+;
+;	Created by:
+;	                 :-) GROMACS - gmx pdb2gmx, VERSION 5.1.4 (-:
+;	
+;	Executable:   /usr/local/gromacs/bin/gmx
+;	Data prefix:  /usr/local/gromacs
+;	Command line:
+;	  gmx pdb2gmx -f 1RYP.pdb -o 1RYP.gro -p 1RYP.top -ignh
+;	Force field was read from the standard GROMACS share directory.
+;
+
+; Include forcefield parameters
+#include "gromos53a6.ff/forcefield.itp"
+
+; Include chain topologies
+#include "1RYP_Protein_chain_A.itp"
+#include "1RYP_Protein_chain_B.itp"
+#include "1RYP_Protein_chain_C.itp"
+#include "1RYP_Protein_chain_D.itp"
+#include "1RYP_Protein_chain_E.itp"
+#include "1RYP_Protein_chain_F.itp"
+#include "1RYP_Protein_chain_G.itp"
+#include "1RYP_Protein_chain_H.itp"
+#include "1RYP_Protein_chain_I.itp"
+#include "1RYP_Protein_chain_J.itp"
+#include "1RYP_Protein_chain_K.itp"
+#include "1RYP_Protein_chain_L.itp"
+#include "1RYP_Protein_chain_M.itp"
+#include "1RYP_Protein_chain_N.itp"
+#include "1RYP_Protein_chain_O.itp"
+#include "1RYP_Protein_chain_P.itp"
+#include "1RYP_Protein_chain_Q.itp"
+#include "1RYP_Protein_chain_R.itp"
+#include "1RYP_Protein_chain_S.itp"
+#include "1RYP_Protein_chain_T.itp"
+#include "1RYP_Protein_chain_U.itp"
+#include "1RYP_Protein_chain_V.itp"
+#include "1RYP_Protein_chain_W.itp"
+#include "1RYP_Protein_chain_X.itp"
+#include "1RYP_Protein_chain_Y.itp"
+#include "1RYP_Protein_chain_Z.itp"
+#include "1RYP_Protein_chain_1.itp"
+#include "1RYP_Protein_chain_2.itp"
+#include "1RYP_Ion_chain_A2.itp"
+#include "1RYP_Ion_chain_E2.itp"
+#include "1RYP_Ion_chain_G2.itp"
+#include "1RYP_Ion_chain_H2.itp"
+#include "1RYP_Ion_chain_I2.itp"
+#include "1RYP_Ion_chain_J2.itp"
+#include "1RYP_Ion_chain_L2.itp"
+#include "1RYP_Ion_chain_M2.itp"
+#include "1RYP_Ion_chain_O2.itp"
+#include "1RYP_Ion_chain_S2.itp"
+#include "1RYP_Ion_chain_U2.itp"
+#include "1RYP_Ion_chain_V2.itp"
+#include "1RYP_Ion_chain_W2.itp"
+#include "1RYP_Ion_chain_X2.itp"
+#include "1RYP_Ion_chain_Z2.itp"
+#include "1RYP_Ion_chain_12.itp"
+
+; Include water topology
+#include "gromos53a6.ff/spc.itp"
+
+#ifdef POSRES_WATER
+; Position restraint for each water oxygen
+[ position_restraints ]
+;  i funct       fcx        fcy        fcz
+   1    1       1000       1000       1000
+#endif
+
+; Include topology for ions
+#include "gromos53a6.ff/ions.itp"
+
+[ system ]
+; Name
+20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME; 20S PROTEASOME
+
+[ molecules ]
+; Compound        #mols
+Protein_chain_A     1
+Protein_chain_B     1
+Protein_chain_C     1
+Protein_chain_D     1
+Protein_chain_E     1
+Protein_chain_F     1
+Protein_chain_G     1
+Protein_chain_H     1
+Protein_chain_I     1
+Protein_chain_J     1
+Protein_chain_K     1
+Protein_chain_L     1
+Protein_chain_M     1
+Protein_chain_N     1
+Protein_chain_O     1
+Protein_chain_P     1
+Protein_chain_Q     1
+Protein_chain_R     1
+Protein_chain_S     1
+Protein_chain_T     1
+Protein_chain_U     1
+Protein_chain_V     1
+Protein_chain_W     1
+Protein_chain_X     1
+Protein_chain_Y     1
+Protein_chain_Z     1
+Protein_chain_1     1
+Protein_chain_2     1
+Ion_chain_A2        1
+Ion_chain_E2        1
+Ion_chain_G2        1
+Ion_chain_H2        1
+Ion_chain_I2        1
+Ion_chain_J2        1
+Ion_chain_L2        1
+Ion_chain_M2        1
+Ion_chain_O2        1
+Ion_chain_S2        1
+Ion_chain_U2        1
+Ion_chain_V2        1
+Ion_chain_W2        1
+Ion_chain_X2        1
+Ion_chain_Z2        1
+Ion_chain_12        1
+SOL               113
+SOL               109
+SOL                73
+SOL                66
+SOL                88
+SOL                58
+SOL                91
+SOL               114
+SOL               122
+SOL               113
+SOL               117
+SOL               100
+SOL               135
+SOL               158
+SOL               108
+SOL               105
+SOL                78
+SOL                63
+SOL                88
+SOL                55
+SOL                92
+SOL               121
+SOL               124
+SOL               110
+SOL               115
+SOL               100
+SOL               139
+SOL               153
