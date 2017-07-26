@@ -4,6 +4,12 @@ This code was used in part for generating the figures presented in [Low-dose cry
 
 It is a modified version of [InSilicoTEM v0.93](https://doi.org/10.1016/j.jsb.2013.05.008). The authors did not specify a license in their release, so I cannot include a license either. 
 
+Changes:
+
+-custom pdb reader
+-schreibt zwischendurch die arrays, die ich fuer die ptycho-sim brauche, in hdf5 files raus
+-K2 mtf und dqe
+
 Please cite the article 
 
     @article{VULOVIC201319,
