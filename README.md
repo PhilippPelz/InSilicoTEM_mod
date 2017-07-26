@@ -6,9 +6,9 @@ It is a modified version of [InSilicoTEM v0.93](https://doi.org/10.1016/j.jsb.20
 
 Changes:
 
--custom pdb reader
--schreibt zwischendurch die arrays, die ich fuer die ptycho-sim brauche, in hdf5 files raus
--K2 mtf und dqe
+   - custom pdb reader
+   - writes arrays that are needed for ptychography simulation into hdf5 files
+   - K2 mtf und dqe added
 
 Please cite the article 
 
