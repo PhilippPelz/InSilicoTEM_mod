@@ -60,7 +60,7 @@ for ii=1:size(rpdb.X,2)
     [~,~,m(ii)] = parametrizeScFac(eltype(ii));
     waitbar(ii / size(rpdb.X,2))
 end
-
+delete(h)
 
 xcoord = xcoord-min(xcoord);
 ycoord = ycoord-min(ycoord);
@@ -83,7 +83,7 @@ if params2.proc.partNum> floor((params2.proc.N/(mindist)))^2
 end
 
 outpot=[];
-for ss = 1:numpartExtra  
+parfor ss = 1:numpartExtra  
     RAl    = [cos(alpha(ss)) sin(alpha(ss)); -sin(alpha(ss)) cos(alpha(ss))];
     RBet   = [cos(beta(ss)) sin(beta(ss)); -sin(beta(ss)) cos(beta(ss))];
     RGamma = [cos(gamma(ss)) sin(gamma(ss)); -sin(gamma(ss)) cos(gamma(ss))];
@@ -149,7 +149,7 @@ for ss = 1:numpartExtra
         newvalue=newvalue*occupancy;
         atompot(kmin(1):kmin(1)+kmm, kmin(2):kmin(2)+kmm, kmin(3):kmin(3)+kmm) = atompot(kmin(1):kmin(1)+kmm, kmin(2):kmin(2)+kmm, kmin(3):kmin(3)+kmm) + newvalue;
     end
-    toc
+    %toc
     % fill in the empty space (with low potential values) with a contant value of vitreous ice which can be subtracted
     atompot1 = atompot - Vwat;
     atompot1(atompot1<0) = 0; 
@@ -174,10 +174,10 @@ for ss = 1:numpartExtra
     if voxel_size < pixsz
        imagPot  = gaussf(mat2im(imagPot), sqrt((pixsz/voxel_size)^2-1), 'best');
     end
-    atPotBlRspmIm = double(resample(imagPot, voxel_size/pixsz));
+    atPotBlRspmIm = dip_array(resample(imagPot, voxel_size/pixsz));
     % motion factor
         if params2.spec.motblur~=0
-            atPotBlRspmIm = double(motionBlur(atPotBlRspmIm,params2));
+            atPotBlRspmIm = dip_array(motionBlur(atPotBlRspmIm,params2));
         end
         %atpotcmpx=atpot4blrspmWat+1i*atpot4blrspmWatIm;
     end  
@@ -189,10 +189,10 @@ for ss = 1:numpartExtra
        outputfilename = sprintf('%s_a%04d_Nx%i_Ny%i_Nz%i_Alp%3.1f_Bet%3.1f_Gam%3.1f_MF%3.1f_VoxSize%02.2fA.raw',params2.spec.pdbin,ss+params2.NumGenPart,szPot, alphad(ss), betad(ss), gammad(ss),params2.spec.motblur, pixsz);
     end
    
-    if ~exist([pwd filesep 'Particles'])
-        mkdir Particles
+    if ~exist([params2.proc.scratch_dir filesep 'Particles'],'dir')
+        mkdir(params2.proc.scratch_dir,'Particles')
     end
-    OutFileName = [pwd filesep 'Particles' filesep outputfilename];
+    OutFileName = [params2.proc.scratch_dir filesep 'Particles' filesep outputfilename];
     disp(OutFileName);
     if wr
         fid = fopen(OutFileName,'w');
@@ -204,7 +204,7 @@ for ss = 1:numpartExtra
         % imaginary part
             bla= fwrite(fid,[double(atPotBlRspm); double(atPotBlRspmIm)], 'double');
         end
-        disp(bla)
+        %disp(bla)
         fclose(fid);
     end
 end

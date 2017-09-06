@@ -1,4 +1,4 @@
-function [x y z alpha beta gamma] = PartList(params2)
+function [x, y, z, alpha, beta, gamma] = PartList(params2)
 %PartList Specifies the translation and/or orientation of the particles
 % within the volume if params.proc.geom = 1. In case it is 0 random
 % orientation will be assumed. 

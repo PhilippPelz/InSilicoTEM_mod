@@ -31,9 +31,9 @@ if strcmp(params2.spec.source, 'pdb')
     mindist  = 0;
     mindistZ = 0;
     if params2.spec.imagpot ~= 3
-        list = dir([params2.proc.scratch_dir filesep 'Particles' filesep params2.spec.pdbin '*MF' sprintf('%3.1f',params2.spec.motblur) '_VoxSize' sprintf('%02.2f',params2.acquis.pixsize*1e10) '*A.raw']);
+        list = dir([pwd filesep 'Particles' filesep params2.spec.pdbin '*MF' sprintf('%3.1f',params2.spec.motblur) '_VoxSize' sprintf('%02.2f',params2.acquis.pixsize*1e10) '*A.raw']);
     else
-        list = dir([params2.proc.scratch_dir filesep 'Particles' filesep params2.spec.pdbin '*MF' sprintf('%3.1f',params2.spec.motblur) '_VoxSize' sprintf('%02.2f',params2.acquis.pixsize*1e10) '*A_Volt' sprintf('%03d',params2.acquis.Voltage/1000) 'kV.raw']);
+        list = dir([pwd filesep 'Particles' filesep params2.spec.pdbin '*MF' sprintf('%3.1f',params2.spec.motblur) '_VoxSize' sprintf('%02.2f',params2.acquis.pixsize*1e10) '*A_Volt' sprintf('%03d',params2.acquis.Voltage/1000) 'kV.raw']);
     end
     numPart = min(size(list,1),numpart); 
     if ~numPart
@@ -61,13 +61,13 @@ if strcmp(params2.spec.source, 'pdb')
        [xt, yt, zt, alphaNo, betaNo, gammaNo] = PartList(params2); 
         xt=xt'; yt=yt'; zt=zt';
     else
-       [xt, yt, zt, numpart] = RndPos(params2,(~params2.spec.overlap)*mindist, zrange);
+       [xt, yt, zt, numpart] = RndPos(params2,mindist, zrange);
     end  
 
     transl = [xt, yt, zt];
     szz = max(szz,mindistZ)+1;
 %     TransName = sprintf('Transl_%s_xt_yt_zt_Vol%02d_%02d_%02d_NrPart%03d',params2.spec.pdbin,N,N,szz,numPart);
-%     save([params2.proc.scratch_dir filesep 'Particles' filesep TransName], 'transl'); 
+%     save([pwd filesep 'Particles' filesep TransName], 'transl'); 
     volstruct = zeros(N,N,szz);
  
     for ss=1:numPart
@@ -90,7 +90,7 @@ if strcmp(params2.spec.source, 'pdb')
         else
             outputfilename = sprintf('%s_a%04d_Nx%i_Ny%i_Nz%i_Alp%3.1f_Bet%3.1f_Gam%3.1f_MF%3.1f_VoxSize%02.2fA_Volt%03dkV.raw',params2.spec.pdbin,tt, nx, ny, nz, Alp, Bet, Gam, MF,VoxS, params2.acquis.Voltage/1000);
         end
-        OutFileName = [params2.proc.scratch_dir filesep 'Particles' filesep outputfilename];
+        OutFileName = [pwd filesep 'Particles' filesep outputfilename];
         disp(OutFileName);
         fid = fopen(OutFileName, 'r');
         if params2.spec.imagpot~=3
@@ -116,7 +116,7 @@ if strcmp(params2.spec.source, 'pdb')
     end
     
 %     imagesc(real(volstruct(:,:,60)));        
-    VolPot = dip_image(permute(volstruct,[2 1 3]));
+    VolPot = permute(volstruct,[2 1 3]);
     
 elseif strcmp(params2.spec.source, 'map')
     atompot4 = double(PartPot);
@@ -147,7 +147,7 @@ elseif strcmp(params2.spec.source, 'map')
         volstruct(x,y,z) = atompot4rot;
     end
     
-    VolPot = dip_image(permute(volstruct,[2 1 3]));  
+    VolPot = permute(volstruct,[2 1 3]);  
     
 elseif strcmp(params2.spec.source, 'amorph')
     VolPot =  repmat(PartPot, [1 1 2]);
