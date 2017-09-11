@@ -177,11 +177,11 @@ switch params2.inter.type
             
             % export stuff if desired...
             if params2.proc.write_hdf
-                h5create(params2.fn,'/vreal',size(t),'Deflate',9,'ChunkSize',[10 10 10]);
-                h5create(params2.fn,'/vimag',size(t),'Deflate',9,'ChunkSize',[10 10 10]);
-                h5write(params2.fn,'/vreal',real(t));
-                h5write(params2.fn,'/vimag',imag(t));
-                h5write(params2.fn,'/dz',dzprop);
+                h5create(params2.proc.h5file,'/vreal',size(t),'Deflate',9,'ChunkSize',[10 10 10]);
+                h5create(params2.proc.h5file,'/vimag',size(t),'Deflate',9,'ChunkSize',[10 10 10]);
+                h5write(params2.proc.h5file,'/vreal',real(t));
+                h5write(params2.proc.h5file,'/vimag',imag(t));
+                h5write(params2.proc.h5file,'/dz',dzprop);
             end
             
         end
@@ -192,10 +192,10 @@ if strcmp(params2.seriesout,'defocus') || strcmp(params2.seriesout,'dose')
 end
 
 if params2.proc.write_hdf
-    h5create(params2.fn,'/psi_exit_real',size(psi_exit),'Deflate',9,'ChunkSize',[10 10 10]);
-    h5create(params2.fn,'/psi_exit_imag',size(psi_exit),'Deflate',9,'ChunkSize',[10 10 10]);
-    h5write(params2.fn,'/psi_exit_real',real(psi_exit));
-    h5write(params2.fn,'/psi_exit_imag',imag(psi_exit));
+    h5create(params2.proc.h5file,'/psi_exit_real',size(psi_exit),'Deflate',9,'ChunkSize',[10 10]);
+    h5create(params2.proc.h5file,'/psi_exit_imag',size(psi_exit),'Deflate',9,'ChunkSize',[10 10]);
+    h5write(params2.proc.h5file,'/psi_exit_real',real(psi_exit));
+    h5write(params2.proc.h5file,'/psi_exit_imag',imag(psi_exit));
 end
 
 %% ---------------------------------- CTF with df, ast, envelopes and optionally phase plate
@@ -275,13 +275,17 @@ for iii= 1:Nseries
     series(:,:,iii) = double(IntenDetect1);
     noiseless_series(:,:,iii) = double(IntenNoiseless2);
     
-    h5create(params2.fn,strcat('/img_noiseless_',num2str(iii)),size(noiseless_tilt_series(:,:,iii)),'Deflate',9,'ChunkSize',[20 20]);
-    h5create(params2.fn,strcat('/img_noisy_',num2str(iii)),size(series(:,:,iii)),'Deflate',9,'ChunkSize',[20 20]);
+    if params2.proc.write_hdf
+        h5create(params2.proc.h5file,strcat('/img_noiseless_',num2str(iii)),size(noiseless_tilt_series(:,:,iii)),'Deflate',9,'ChunkSize',[20 20]);
+        h5create(params2.proc.h5file,strcat('/img_noisy_',num2str(iii)),size(series(:,:,iii)),'Deflate',9,'ChunkSize',[20 20]);
+        
+        h5write(params2.proc.h5file,strcat('/img_noiseless_',num2str(iii)),double(IntenNoiseless2));
+        h5write(params2.proc.h5file,strcat('/img_noisy_',num2str(iii)),double(IntenDetect1));
+    end
     
-    h5write(params2.fn,strcat('/img_noiseless_',num2str(iii)),double(IntenNoiseless2));
-    h5write(params2.fn,strcat('/img_noisy_',num2str(iii)),double(IntenDetect1));
 end
 series = dip_image(series);
+noiseless_series = dip_image(noiseless_series);
 
 %% ---------------------------------Output structure
 imStructOut.series           = series;

@@ -97,8 +97,7 @@ elseif params.spec.imagpot == 2 || params.spec.imagpot == 3
     end
 end
     
-    
- 
+params2.proc.h5file = [params2.proc.output_dir, sep, params2.proc.fn, '.h5']; 
     
     
 

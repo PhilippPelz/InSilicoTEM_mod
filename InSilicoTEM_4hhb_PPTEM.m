@@ -67,13 +67,15 @@ close all; clear all;
 
 
 % ----------------------- General processing parameters (proc field)
-params.proc.N               = 4096; % Image size (field of view)
-params.proc.partNum         = 400;   % Number of particles.
+params.proc.N               = 1024; % Image size (field of view)
+params.proc.partNum         = 50;   % Number of particles.
 params.proc.geom            = 0;  % Specify orientation and translation of particles in 'PartList.m' (=1) or generate them randomly (=0)
 params.proc.cores           = 40;  % the numer of matlab pools to be open for parfor loops
 params.proc.gpu             = true; % use GPU acceleration
-params.proc.write_hdf       = false;
+params.proc.write_hdf       = true;
 params.proc.scratch_dir     = '/scratch';
+params.proc.output_dir      = '/home/bueckerr/local_data';
+params.proc.fn              = '4hhb_300_phase-plate_TEM_20_4.h5';
 
 % ----------------------- Specimen (spec field)
 params.spec.source          = 'pdb';        % Options: 'map', 'pdb', or 'amorph'
@@ -129,6 +131,7 @@ params.disp.generateWhat   = 'im'; % Options: 'im', 'exitw', 'imNoiseless'
 params.disp.ctf            = 1; % Flag to display CTF
 params.disp.mtfdqe         = 1; % Flag to display MTF and DQE
 
+dip_randomseed(randi(9999))
 
 % ---------------------- Parse parameters
 params2 = parsePar(params);
@@ -140,25 +143,22 @@ params2 = parsePar(params);
 
 % ---------------------- Padding and placing the particles within the volume
 [InputVol, PosOrient] = generateFullVolume(PartPot,params2);
-% dipshow(angle(InputVol(:,:,10)));
-% dipshow((InputVol(:,:,20)));
-dip_randomseed(1234)
-fn = '/home/bueckerr/local_data/4hhb/4hhb_300_phase-plate_TEM_20_4.h5';
-if exist(fn,'file')
-    delete(fn)
-end
-params2.fn = fn;
-h5create(fn,'/dose',1);
-h5write(fn,'/dose',params.acquis.dose_on_sample(1));
 
-h5create(fn,'/dx',1);
-h5create(fn,'/dz',1);
-h5write(fn,'/dx',params.acquis.pixsize);
+if params2.proc.write_hdf
+    if exist(params2.proc.h5file,'file')
+        delete(params2.proc.h5file)
+    end
+    
+    h5create(params2.proc.h5file,'/dose',1);
+    h5write(params2.proc.h5file,'/dose',params.acquis.dose_on_sample(1));
+    
+    h5create(params2.proc.h5file,'/dx',1);
+    h5create(params2.proc.h5file,'/dz',1);
+    h5write(params2.proc.h5file,'/dx',params.acquis.pixsize);
+end
 
 %% ---------------------- Image simulation
 [imStructOut] = simTEM_v2(InputVol, params2);
-
-
 
 %% ---------------------- Display
 params.disp.generateWhat = 'im';
@@ -172,7 +172,5 @@ switch params.disp.generateWhat
 end
 
 % --------------------- Writing the image (stack in case of a series).
-
-%     tom_mrcwrite(double(imStructOut.series), 'name','FinalImage')
-%     tom_mrcwrite(double(imStructOut.exit), 'name','ExitWave')
-%     tom_mrcwrite(double(imStructOut.noiseless_series), 'name','Noiseless')
+WriteMRC(dip_array(imStructOut.series),params2.acquis.pixsize,[params2.proc.h5file(1:end-3) '_noisy.mrc'])
+WriteMRC(dip_array(imStructOut.noiseless_series),params2.acquis.pixsize,[params2.proc.h5file(1:end-3) '_noiseless.mrc'])
