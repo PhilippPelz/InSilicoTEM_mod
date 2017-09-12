@@ -72,7 +72,7 @@ params.proc.partNum         = 50;   % Number of particles.
 params.proc.geom            = 0;  % Specify orientation and translation of particles in 'PartList.m' (=1) or generate them randomly (=0)
 params.proc.cores           = 40;  % the numer of matlab pools to be open for parfor loops
 params.proc.gpu             = true; % use GPU acceleration
-params.proc.write_hdf       = true;
+params.proc.write_hdf       = false;
 params.proc.scratch_dir     = '/scratch';
 params.proc.output_dir      = '/home/bueckerr/local_data';
 params.proc.fn              = '4hhb_300_phase-plate_TEM_20_4.h5';
@@ -158,7 +158,7 @@ if params2.proc.write_hdf
 end
 
 %% ---------------------- Image simulation
-[imStructOut] = simTEM_v2(InputVol, params2);
+simTEM_v3
 
 %% ---------------------- Display
 params.disp.generateWhat = 'im';

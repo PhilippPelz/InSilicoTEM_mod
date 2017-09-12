@@ -1,5 +1,5 @@
 
-function [series, noiseless_series] = detectElectrons(intensity)
+function [series, noiseless_series] = detectElectrons(intensity,params2)
 
 nDose = length(params2.acquis.dose);
 nIntensity = size(intensity,3);
@@ -11,7 +11,7 @@ noiseless_series = zeros(size(series));
 for iii= 1:nIntensity
     for k = 1:nDose
         
-        set = (jjj-1) * nDose + k;
+        set = (iii-1) * nDose + k;
         
         fprintf('Applying dose setting %d (out of %d) to input image %d (out of %d)',k,iii,nDose,nIntensity);
         

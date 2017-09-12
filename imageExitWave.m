@@ -6,12 +6,14 @@ nPsiExit = size(psi_exit,3);
 nRuns = nFocSeries * nPsiExit;
 
 intensity = zeros(params2.proc.N,params2.proc.N,nRuns);
-ctf = dip_image(zeros(params2.proc.N,params2.proc.N,nFocSeries));
+ctf = zeros(params2.proc.N,params2.proc.N,nFocSeries);
 
 for k = 1:nFocSeries
-    params2.df_run = params2.df(k);
-    fprintf('Calculating CTF for df = %g\n', params2.df_run)
-    ctf(:,:,k) = simulateCTF(params2);
+    params2.acquis.df_run = params2.acquis.df(k);
+    fprintf('Calculating CTF for df = %g\n', params2.acquis.df_run)
+    % ctf cannot be stored as dip_image, as it does not support singleton
+    % expansion (no idea why...)
+    ctf(:,:,k) = dip_array(simulateCTF(params2));
 end
 if params2.mic.PPflag
     ctf = 0.9 * ctf;
@@ -45,7 +47,7 @@ for k = 1:nFocSeries
         
         set = (jjj-1) * nFocSeries + k;
         
-        fprintf('Applying CTF to set %d out of %d', set, nRuns);
+        fprintf('Applying CTF to set %d out of %d\n', set, nRuns);
         
         % this could be made much more elegant (blockwise with bsxfun)... but for now...
         btot = ctf(:,:,k)*dip_fouriertransform(dip_image(psi_exit(:,:,jjj)),'forward',[1 1 ]); %0]);

@@ -1,4 +1,4 @@
-function [psi_exit, t, dz] = getExitWave(InputVol, params2)
+function [psi_exit, t, dzprop] = getExitWave(InputVol, params2)
 
 voxSz = params2.acquis.pixsize; % the voxel size
 
@@ -65,6 +65,7 @@ switch params2.inter.type
             dzprop = thicknessfull / n;
             
             % modify potential by constructing imaginary part
+            % ...could this be moved to t instead of potential?
             if params2.spec.imagpot == 0
                 % potential = potential; % do nothing
             elseif params2.spec.imagpot == 1
