@@ -28,8 +28,14 @@ Please cite the article
 
 if you use this code. If you use one of the new file starting with InSilicTEM_1ryp*, InSilicTEM_4hhb*, or InSilicTEM_4V5F*, please also consider citing 
 
-    @article{Pelz2017,
-    title = "Low-dose cryo electron ptychography via non-convex Bayesian optimization",
-    journal = "Scientific Reports (accepted)",
-    author = "Philipp Michael Pelz and Wen Xuan Qiu and Robert Bücker and Günther Kassier and R.J. Dwayne Miller",
+    @article{pelz_low-dose_2017,
+      langid = {english},
+      title = {Low-Dose Cryo Electron Ptychography via Non-Convex {{Bayesian}} Optimization},
+      volume = {7},
+      issn = {2045-2322},
+      doi = {10.1038/s41598-017-07488-y},
+      number = {1},
+      journaltitle = {Scientific Reports},
+      date = {2017-08-29},
+      pages = {9883}
     }
