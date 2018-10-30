@@ -1,6 +1,6 @@
 # Modified version of InSilicoTEM v0.93
 
-This code was used in part for generating the figures presented in [Low-dose cryo electron ptychography via non-convex Bayesian optimization](https://arxiv.org/abs/1702.05732).
+This code was used in part for generating the figures presented in [Low-dose cryo electron ptychography via non-convex Bayesian optimization](https://www.nature.com/articles/s41598-017-07488-y).
 
 It is a modified version of [InSilicoTEM v0.93](https://doi.org/10.1016/j.jsb.2013.05.008). The authors did not specify a license in their release, so I cannot include a license either. 
 
